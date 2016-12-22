@@ -1,5 +1,5 @@
 {
-  "name": "sankeyCharter",
+  "name": "sankey-charter",
   "description": "Reuters sankey maker",
   "main": [
     "scss/sankeystyles.scss",
@@ -8,9 +8,9 @@
     "chartBlocks/*.md"    
   ],
   "dependencies": {
-    "charterCommons": "https://github.com/Matthew-Weber/charter-commons.git#*"
+    "charter-commons": "https://github.com/Matthew-Weber/charter-commons.git#*"
   },   
-  "version": "0.0.2",
+  "version": "0.0.3",
    "ignore": [
     "/.*"
   ]
