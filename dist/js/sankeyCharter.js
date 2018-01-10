@@ -1,47 +1,3 @@
-(function () {
-  window["Reuters"] = window["Reuters"] || {};
-  window["Reuters"]["Graphics"] = window["Reuters"]["Graphics"] || {};
-  window["Reuters"]["Graphics"]["tableCharter"] = window["Reuters"]["Graphics"]["tableCharter"] || {};
-  window["Reuters"]["Graphics"]["tableCharter"]["Template"] = window["Reuters"]["Graphics"]["tableCharter"]["Template"] || {};
-
-  window["Reuters"]["Graphics"]["tableCharter"]["Template"]["tabletemplate"] = function (t) {
-    var __t,
-        __p = '',
-        __j = Array.prototype.join;
-    function print() {
-      __p += __j.call(arguments, '');
-    }
-    __p += '<div class="table-responsive">\n	<table id="dataTable1" cellspacing="1" class="tablesorter table table-condensed">\n	  <thead>\n	    <tr>\n			';
-    t.self.headerDisplay.forEach(function (d) {
-      ;
-      __p += '\n				<th>' + ((__t = d) == null ? '' : __t) + '</th>\n			';
-    });
-    __p += '\n	    </tr>\n	  </thead>\n	  <tbody>\n			';
-    t.data.forEach(function (row) {
-      ;
-      __p += '\n				<tr role="row">\n					';
-      t.self.dataColumnHeaders.forEach(function (header, index) {
-        var value = row[header];
-        var formater = t.self[t.self.formats[index]] || t.self.text;
-        if (index == 0) {
-          ;
-          __p += '\n							<th>' + ((__t = value) == null ? '' : __t) + '</th>\n						';
-        } else {
-          ;
-          __p += '\n							<td class="';
-          if (header == t.self.initialSort) {
-            ;
-            __p += 'highlight ';
-          };
-          __p += ' ' + ((__t = header) == null ? '' : __t) + '">' + ((__t = formater(value)) == null ? '' : __t) + '</td>	\n						\n					';
-        }
-      });
-      __p += '\n				</tr>\n			';
-    });
-    __p += '	  \n	  </tbody>\n	</table>\n</div>';
-    return __p;
-  };
-})();
 d3.sankey = function () {
   var sankey = {},
       nodeWidth = 24,
@@ -441,7 +397,17 @@ sankeygen = Backbone.View.extend({
 		self.targetDiv = $(self.el).attr("id");
 
 		self.width = $(self.el).width();
-		self.height = self.width * 2 / 3;
+
+		if (!self.options.height) {
+			self.height = $(self.el).width() * 2 / 3;
+		}
+		if (self.options.height < 10) {
+			if ($(window).width() < 400) {
+				self.height = $(self.el).width();
+			} else {
+				self.height = $(self.el).width() * self.options.height;
+			}
+		}
 
 		self.leftLabel = d3.select(self.el).style("position", "relative").append("p").attr("class", "sankey-label left").style("width", self.margin.left - 8 + "px").html(self.leftLabel);
 
@@ -567,7 +533,17 @@ sankeygen = Backbone.View.extend({
 	},
 	resize: function resize() {
 		var self = this;
-		self.height = self.width * 2 / 3;
+
+		if (!self.options.height) {
+			self.height = $(self.el).width() * 2 / 3;
+		}
+		if (self.options.height < 10) {
+			if ($(window).width() < 400) {
+				self.height = $(self.el).width();
+			} else {
+				self.height = $(self.el).width() * self.options.height;
+			}
+		}
 
 		d3.select("#" + self.targetDiv + ' svg').transition().attr("width", self.width).attr("height", self.height);
 

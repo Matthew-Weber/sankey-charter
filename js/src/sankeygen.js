@@ -111,8 +111,18 @@ sankeygen = Backbone.View.extend({
 		self.targetDiv = $(self.el).attr("id");
 		
 
-	self.width = $(self.el).width() 
-	self.height = self.width* 2 / 3
+	self.width = $(self.el).width()
+	
+	if (!self.options.height){
+		self.height = $(self.el).width() * 2 / 3			
+	}
+	if (self.options.height < 10){
+		if ($(window).width() < 400){
+			self.height = $(self.el).width() 							
+		}else{
+			self.height = $(self.el).width() * self.options.height				
+		}
+	}	 
 	
 	self.leftLabel = d3.select(self.el)
 		.style("position","relative")
@@ -284,8 +294,19 @@ sankeygen = Backbone.View.extend({
 	},
 	resize: function(){
 			var self = this;
-			self.height = self.width *2 / 3;		
 			
+			if (!self.options.height){
+				self.height = $(self.el).width() * 2 / 3			
+			}
+			if (self.options.height < 10){
+				if ($(window).width() < 400){
+					self.height = $(self.el).width() 							
+				}else{
+					self.height = $(self.el).width() * self.options.height				
+				}
+			}
+			
+						
 			d3.select("#"+self.targetDiv+' svg') 
 				.transition()
 				.attr("width", self.width)
